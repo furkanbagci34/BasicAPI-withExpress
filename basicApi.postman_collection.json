@@ -1,0 +1,28 @@
+{
+	"info": {
+		"_postman_id": "3b29cf31-cbdd-4c5d-9baa-270ab22f3880",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "26487867"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"login\":\"admin\",\r\n    \"pass\": \"1\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:3000"
+			},
+			"response": []
+		}
+	]
+}
