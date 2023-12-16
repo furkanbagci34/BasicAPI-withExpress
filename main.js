@@ -1,6 +1,8 @@
 import dotenv from 'dotenv';
 import express from 'express';
 import jwt from 'jsonwebtoken'
+import CryptoJS from "crypto-js"
+import data from './data.js'
 
 class main {
 
@@ -26,9 +28,14 @@ class main {
 
         this.app.post('/login', async (req, res) => {
 
-            const login = this.auth.login(req.body)
+            const login = await this.auth.login(req.body)
 
-            res.send(await result.successResult("success",{}));
+            if(login) {
+                res.send(await result.successResult("success",{accessToken: login}));
+            }
+            else {
+                res.status(401).send(await result.errorResult(("Invalid Login")));
+            }
         })
     }
 }
@@ -36,32 +43,40 @@ class main {
 class auth {
 
     constructor(){
-
-
+        this.crypto = new crypto()
+        this.secretKey = "exampleSecretKey"
     }
 
-    async login(pBody){
+    async login(body){
+        const { login, pass } = body;
+        const user = data.find(u => u.login === login && u.pass === pass);
 
+        if(user) {
+            return this.generateToken(login, pass)
+        }
+        else {
+            return false
+        }
     }
 
-    async generateToken(){
+    async generateToken(login,pass){
+        const tokenData = this.crypto.encrypt(`${login}:${pass}`)
 
+        return jwt.sign({tokenData}, this.secretKey);
     }
 }
 
-class cryptoJwt {
+class crypto {
 
     constructor()
     {
-
+        this.CRYPTO_KEY = "exampleKey"
     }
-
-    async generateToken(){
-
+    async encrypt(pData){
+        return CryptoJS.AES.encrypt(pData, this.CRYPTO_KEY).toString();
     }
-
-    async tokenCheck(){
-
+    async decrypt(pData){
+        return CryptoJS.AES.decrypt(pData, this.CRYPTO_KEY).toString();
     }
 }
 

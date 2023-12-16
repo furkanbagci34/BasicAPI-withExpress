@@ -2,7 +2,11 @@
   "name": "basicapi-withexpress",
   "version": "1.0.0",
   "type": "module",
+  "scripts": {
+    "start": "node main"
+  },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0"
